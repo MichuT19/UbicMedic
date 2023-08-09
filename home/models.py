@@ -1,7 +1,7 @@
 
 from django.db import models
 
-class Sexo(models.Model):
+class Sexoi(models.Model):
     id_sexo = models.AutoField(primary_key=True)
     descripcion = models.CharField(max_length=50,verbose_name = 'Sexo')
     class Meta:
