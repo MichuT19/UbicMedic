@@ -3,14 +3,12 @@ from django.http import HttpResponse
 from reportlab.lib.pagesizes import landscape, A4
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.platypus import SimpleDocTemplate,Paragraph, Table, TableStyle
+from reportlab.platypus import Paragraph, Table, TableStyle
 from reportlab.pdfgen import canvas
 
 
 from home.trabajador.models import *
 from datetime import datetime
-from io import BytesIO
-from reportlab.lib.pagesizes import letter
 
 
 
