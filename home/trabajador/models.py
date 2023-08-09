@@ -35,18 +35,18 @@ class Cita(models.Model):
 
     latitud = models.DecimalField(max_digits=15, decimal_places=9)
     longitud = models.DecimalField(max_digits=15, decimal_places=9) 
-    ubicacion = models.PointField(null=True,blank=True)
+    #ubicacion = models.PointField(null=True,blank=True)
     estado = models.ForeignKey('EstadoCita', models.DO_NOTHING, db_column='id_estado',verbose_name = 'Estado')
     def save(self,*args,**kwagrs):
         self.fecha_creacion = self.convertir_fecha(self.fecha_creacion)
         self.fecha_inicioatencion = self.convertir_fecha(self.fecha_inicioatencion)
         self.fecha_finatencion = self.convertir_fecha(self.fecha_finatencion)
         
-        if not self.latitud:
-            self.latitud=self.ubicacion.y
-        if not self.longitud:
-            self.longitud=self.ubicacion.x
-        super(Cita,self).save(*args,**kwagrs)
+         #if not self.latitud:
+         #   self.latitud=self.ubicacion.y
+        #if not self.longitud:
+         #   self.longitud=self.ubicacion.x
+          #super(Cita,self).save(*args,**kwagrs)
         
     def convertir_fecha(self, fecha_str):
         if fecha_str:
@@ -133,15 +133,15 @@ class Trabajador(models.Model):
     pdf_curriculum = models.FileField(null=True,upload_to='pdfs/',verbose_name = 'Pdf Curriculum')
     latitud = models.DecimalField(max_digits=15, decimal_places=9)
     longitud = models.DecimalField(max_digits=15, decimal_places=9) 
-    ubicacion = models.PointField(null=True,blank=True)
+    #ubicacion = models.PointField(null=True,blank=True)
     estado = models.ForeignKey('EstadoTrabajador', models.DO_NOTHING, db_column='id_estado',verbose_name = 'Estado_Trabajador')
     presentacion = models.CharField(max_length=200,null=True)
-    def save(self,*args,**kwagrs):
-        if not self.latitud:
-            self.latitud=self.ubicacion.y
-        if not self.longitud:
-            self.longitud=self.ubicacion.x
-        super(Trabajador,self).save(*args,**kwagrs)
+    #def save(self,*args,**kwagrs):
+        #if not self.latitud:
+         #   self.latitud=self.ubicacion.y
+        #if not self.longitud:
+         #   self.longitud=self.ubicacion.x
+        #super(Trabajador,self).save(*args,**kwagrs)
 
     class Meta:
         managed = True
@@ -194,14 +194,6 @@ class Ubicaciones(models.Model):
     id_trabajador = models.ForeignKey('Trabajador', models.DO_NOTHING, db_column='id_trabajador')
     latitud = models.DecimalField(max_digits=15, decimal_places=9)
     longitud = models.DecimalField(max_digits=15, decimal_places=9) 
-    ubicacion = models.PointField()
-
-    def save(self,*args,**kwagrs):
-        if not self.latitud:
-            self.latitud=self.ubicacion.y
-        if not self.longitud:
-            self.longitud=self.ubicacion.x
-        super(Ubicaciones,self).save(*args,**kwagrs)
     estado = models.BooleanField()
 
     class Meta:
