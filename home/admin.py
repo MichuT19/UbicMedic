@@ -293,7 +293,7 @@ class CitaAdmin(admin.ModelAdmin):
                     'latitud',
                     'estado',
                     )
-    readonly_fields=('longitud','latitud') 
+    #readonly_fields=('longitud','latitud') 
 
     def reportepdf_cita(self, request, queryset):
         # Obtén los datos de los trabajadores seleccionados en queryset
