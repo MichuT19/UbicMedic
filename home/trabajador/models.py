@@ -15,8 +15,8 @@ from django.urls import reverse
 from django.utils.html import format_html
 
 from django.db import models
-from django.contrib.gis.db import models
-from django.contrib.gis.geos import Point
+ #from django.contrib.gis.db import models
+#from django.contrib.gis.geos import Point
 from django.dispatch import receiver
 from django.db.models.signals import pre_save
 
@@ -37,23 +37,6 @@ class Cita(models.Model):
     longitud = models.DecimalField(max_digits=15, decimal_places=9) 
     #ubicacion = models.PointField(null=True,blank=True)
     estado = models.ForeignKey('EstadoCita', models.DO_NOTHING, db_column='id_estado',verbose_name = 'Estado')
-    def save(self,*args,**kwagrs):
-        self.fecha_creacion = self.convertir_fecha(self.fecha_creacion)
-        self.fecha_inicioatencion = self.convertir_fecha(self.fecha_inicioatencion)
-        self.fecha_finatencion = self.convertir_fecha(self.fecha_finatencion)
-        
-         #if not self.latitud:
-         #   self.latitud=self.ubicacion.y
-        #if not self.longitud:
-         #   self.longitud=self.ubicacion.x
-          #super(Cita,self).save(*args,**kwagrs)
-        
-    def convertir_fecha(self, fecha_str):
-        if fecha_str:
-            fecha_obj = datetime.fromisoformat(fecha_str.isoformat()[:-6])
-            return fecha_obj.strftime('%Y-%m-%d %H:%M:%S')
-        return None
-    
     class Meta:
         app_label = "home"
         managed = True

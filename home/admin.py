@@ -268,20 +268,18 @@ class CalificacionAdmin(admin.ModelAdmin):
             del actions['delete_selected']
         return actions
 
-class CitaForm(forms.ModelForm):
-    class Meta:
-        model=Cita
-        fields='__all__'
-        # widgets = {
-        #     'fecha_creacion': DateInput(attrs={'type': 'datetime-local'}),
-        #     'fecha_inicioatencion': DateInput(attrs={'type': 'datetime-local'}),
-        #     'fecha_finatencion': DateInput(attrs={'type': 'datetime-local'}),
-            
-        # }
-        
+# class CitaForm(forms.ModelForm):
+#     class Meta:
+#         model=Cita
+#         fields='_all_'
+#         # widgets = {
+#         #     'fecha_creacion': DateInput(attrs={'type': 'datetime-local'}),
+#         #     'fecha_inicioatencion': DateInput(attrs={'type': 'datetime-local'}),
+#         #     'fecha_finatencion': DateInput(attrs={'type': 'datetime-local'}),
+#         # }
+
 @admin.register(Cita)
 class CitaAdmin(admin.ModelAdmin):
-    form=CitaForm
     list_display = ('id_cita',
                     'id_cliente',
                     'id_trabajador',
