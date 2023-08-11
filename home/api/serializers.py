@@ -124,12 +124,15 @@ class LoginSerializer(ModelSerializer):
     def get_clienteL(self,obj):
         return f"{obj.id_cliente.nombre} {obj.id_cliente.apellido}"
 
+
 class ChatSerializer(ModelSerializer):
     cliente = SerializerMethodField()
     trabajador = SerializerMethodField()
+    fotoC=ImageField(read_only=True,source='id_cliente.foto')
+    fotoT=ImageField(read_only=True,source='id_trabajador.id_cliente.foto')
     class Meta:
         model = models.Chat   
-        fields = ['id_chat','id_cliente','cliente','id_trabajador','trabajador','fecha_creacion','estado']
+        fields = ['id_chat','id_cliente','cliente','id_trabajador','trabajador','fecha_creacion','estado','fotoC','fotoT']
     def get_cliente(self,obj):
         return f"{obj.id_cliente.nombre} {obj.id_cliente.apellido}"
     def get_trabajador(self,obj):
