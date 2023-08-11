@@ -19,12 +19,10 @@ from home.trabajador.models import *
 from home.views import *
 from django.contrib import admin
 from django.conf.urls.static import static
-
-
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
 
 def serve_index(request):
     return render(request, 'paginfo/index.html')
