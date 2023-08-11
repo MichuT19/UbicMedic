@@ -272,12 +272,13 @@ class CitaForm(forms.ModelForm):
     class Meta:
         model=Cita
         fields='__all__'
-        widgets = {
-            'fecha_creacion': DateInput(attrs={'type': 'datetime-local'}),
-            'fecha_inicioatencion': DateInput(attrs={'type': 'datetime-local'}),
-            'fecha_finatencion': DateInput(attrs={'type': 'datetime-local'}),
+        # widgets = {
+        #     'fecha_creacion': DateInput(attrs={'type': 'datetime-local'}),
+        #     'fecha_inicioatencion': DateInput(attrs={'type': 'datetime-local'}),
+        #     'fecha_finatencion': DateInput(attrs={'type': 'datetime-local'}),
             
-        }
+        # }
+        
 @admin.register(Cita)
 class CitaAdmin(admin.ModelAdmin):
     form=CitaForm
