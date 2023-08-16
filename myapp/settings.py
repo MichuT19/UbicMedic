@@ -142,7 +142,7 @@ USE_TZ = True
 # MEDIA_URL = '/media/'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-MEDIA_URL = 'C:/Users/ORLAND/Videos/AnyDesk/UbicMedic/home/static/images/'
+MEDIA_URL = '/UbicMedic/home/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'home','static')
 
 STATIC_URL = 'static/'
