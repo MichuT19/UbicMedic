@@ -84,13 +84,21 @@ class TrabajadorSerializer(ModelSerializer):
         fields = ['id_trabajador','cliente','id_cliente','profesiones','id_tipo_trabajador','trabajador','pdf_cedula','pdf_curriculum','latitud', 'longitud','estado','estadoid','foto']
 
 class CitaSerializer(ModelSerializer):
+    trabajador = SerializerMethodField()
     estadoid = CharField(read_only=True, source = 'estado.descripcion')
+    cliente = SerializerMethodField()
+    fotoC=ImageField(read_only=True,source='id_cliente.foto')
+    fotoT=ImageField(read_only=True,source='id_trabajador.id_cliente.foto')
     class Meta:
         model = models.Cita
-        fields = ['id_cita','id_trabajador','id_cliente','descripcion_motivo',
+        fields = ['id_cita','id_trabajador','trabajador','id_cliente','cliente','descripcion_motivo',
                   'fecha_creacion','fecha_inicioatencion','fecha_finatencion','latitud',
-                  'longitud','estado','estadoid'
+                  'longitud','estado','estadoid','fotoC','fotoT'
                   ]        
+    def get_cliente(self,obj):
+        return f"{obj.id_cliente.nombre} {obj.id_cliente.apellido}"
+    def get_trabajador(self,obj):
+        return f"{obj.id_trabajador.id_cliente.nombre} {obj.id_trabajador.id_cliente.apellido}"
 
 class DetalleCitaSerializer(ModelSerializer):
     class Meta:
@@ -123,7 +131,6 @@ class LoginSerializer(ModelSerializer):
         fields = ['id_login','clienteL','id_cliente','usuario','contrasenia','tipo_login', 'estado']
     def get_clienteL(self,obj):
         return f"{obj.id_cliente.nombre} {obj.id_cliente.apellido}"
-
 
 class ChatSerializer(ModelSerializer):
     cliente = SerializerMethodField()
