@@ -18,7 +18,7 @@ router_posts.register(prefix='DetalleCita', basename="DetalleCita", viewset=view
 router_posts.register(prefix='Enfermedades', basename="Enfermedades", viewset=views.EnfermedadesApi)
 router_posts.register(prefix='EnfermedadesxPaciente', basename="EnfermedadesxPaciente", viewset=views.EmfermedadesxPacienteApi)
 router_posts.register(prefix='Login', basename="Login", viewset=views.LoginApi)
-router_posts.register(prefix='Chat', basename="Chat", viewset=views.ChatApi)
+router_posts.register(prefix='Chatingsdas', basename="Chat", viewset=views.ChatApi)
 router_posts.register(prefix='ChatDetalle', basename="ChatDetalle", viewset=views.ChatDetalle)
 router_posts.register(prefix='Mensaje', basename="Mensaje", viewset=views.MensajeApi)
 router_posts.register(prefix='TipoSangre',basename='TipoSangre',viewset=views.TipoSangreApi)
