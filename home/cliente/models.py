@@ -27,7 +27,7 @@ class Cliente(models.Model):
     ciudad = models.ForeignKey('Ciudad', on_delete=models.CASCADE)
     referencia_de_domicilio = models.CharField(max_length=30)
     tipo_sangre = models.ForeignKey('TipoSangre', models.DO_NOTHING, db_column='id_tiposangre',verbose_name = 'Tipo de Sangre')
-    foto = models.ImageField(null=True,blank=True)
+    foto = models.ImageField(upload_to='static/',null=True,blank=True)
     
     class Meta:
         managed = True
