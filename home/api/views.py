@@ -7,6 +7,9 @@ from home.api import serializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+from firebase_admin.messaging import Message, Notification
+from fcm_django.models import FCMDevice
+
 class ProfesionesApi(ModelViewSet):
     queryset = models.Profesiones.objects.all()
     serializer_class = serializers.ProfesionesSerializer
@@ -30,6 +33,29 @@ class TrabajadorApi(ModelViewSet):
 class CitaApi(ModelViewSet):
     queryset = models.Cita.objects.all()
     serializer_class = serializers.CitaSerializer
+
+    def perform_create(self, serializer):
+        #cita registrada
+        cita = serializer.save()
+        user = cita.id_trabajador.id_cliente
+        cliente = models.Login.objects.get(id_cliente=user)
+        persona= cliente.usuario
+        device = FCMDevice.objects.get(name = persona)
+        print("dispositivo")
+        print(device)
+        device.send_message(Message(notification=Notification(title='Nueva cita', body='Se ha resgistrado una nueva cita')))
+
+    def perform_update(self, serializer):
+        cita = serializer.save()
+        user = cita.id_cliente
+        cliente = models.Login.objects.get(id_cliente=user)
+        persona= cliente.usuario
+        device = FCMDevice.objects.get(name = persona)
+        if cita.estado.descripcion == "Aceptada":
+            device.send_message(Message(notification=Notification(title='Cita aceptada', body='Tu cita ha sido aceptada')))
+        else:
+            device.send_message(Message(notification=Notification(title='Cita rechazada', body='Tu cita ha sido rechazada')))  
+
 
 class DetalleCitaApi(ModelViewSet):
     queryset = models.DetalleCita.objects.all()
@@ -56,6 +82,24 @@ class LoginApi(ModelViewSet):
 class MensajeApi(ModelViewSet):
     queryset = models.Mensaje.objects.all()
     serializer_class = serializers.MensajeSerializar  
+
+    def perform_create(self, serializer):
+        #cita registrada
+        mensaje = serializer.save()
+        emisor = mensaje.id_cliente
+        usuario1 = mensaje.id_chat.id_cliente
+        usuario2 = mensaje.id_chat.id_trabajador.id_cliente
+        
+        if usuario1 != emisor:  
+            print(usuario1)
+            cliente = models.Login.objects.get(id_cliente=usuario1)
+        else:
+            print(usuario2)
+            cliente = models.Login.objects.get(id_cliente=usuario2)
+        persona= cliente.usuario
+        device = FCMDevice.objects.get(name = persona)
+        device.send_message(Message(notification=Notification(title='Nuevo mensaje', body= f'{mensaje.Mensaje}')))
+  
 
 class ChatApi(ModelViewSet):
     queryset = models.Chat.objects.all()
