@@ -157,7 +157,7 @@ if os.path.exists(f):
     sys.modules[module_name] = module
     exec(open(f, 'rb').read())
 
-cred = credentials.Certificate(os.path.join(PROJECT_APP, 'credenciales.json'))
+cred = credentials.Certificate(os.path.join(PROJECT_APP, 'myapp/credenciales.json'))
 firebase_admin.initialize_app(cred)
 
 MEDIA_URL = '/media/'
