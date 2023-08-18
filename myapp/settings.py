@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 import dj_database_url
+import firebase_admin
+from firebase_admin import credentials
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,6 +48,7 @@ INSTALLED_APPS = [
     #'jazzmin',
     'openpyxl',
     'home',
+    'fcm_django',
 ]
 
 MIDDLEWARE = [
@@ -83,11 +86,18 @@ WSGI_APPLICATION = 'myapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#      'default': dj_database_url.config(
+#          default='postgresql://postgres:postgres@localhost:5432/mysite',
+#          conn_max_age=600
+#      )
+# }
+
 DATABASES = {
-     'default': dj_database_url.config(
-         default='postgresql://postgres:postgres@localhost:5432/mysite',
-         conn_max_age=600
-     )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 # DATABASES = {
@@ -130,6 +140,25 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+
+FCM_DJANGO_SETTINGS = {
+        "FCM_SERVER_KEY": "AAAAwtYqJcw:APA91bG6ibBeS9yEMNHjlNtAKc1zlpfGBXdlqqfkQ8DXlG5Cs7l-Jzniim41vBFEpeSMf_Gp85Zpt65WzzEhPuiUcslTSSQSLalk9mT-Bj3Dl4DVnRa4XkUrzZtcKXLml2PoWFyvTwms"}
+
+
+PROJECT_APP = os.path.basename(BASE_DIR)
+f = os.path.join(PROJECT_APP, 'local_settings.py')
+if os.path.exists(f):
+    import sys
+    import imp
+    module_name = '%s.local_settings' % PROJECT_APP
+    module = imp.new_module(module_name)
+    module.__file__ = f
+    sys.modules[module_name] = module
+    exec(open(f, 'rb').read())
+
+cred = credentials.Certificate(os.path.join(PROJECT_APP, '../credenciales.json'))
+firebase_admin.initialize_app(cred)
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

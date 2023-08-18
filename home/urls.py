@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 from home.api.views import ObtenerToken
 from rest_framework import routers
 from home.api import views
+from home.api_fcm.rest_framework import FCMDeviceAuthorizedViewSet
 
 router_posts = routers.DefaultRouter()
 router_posts.register(prefix='EstadoTrabajador', basename="Estado_trabajador", viewset=views.EstadoTrabajadorApi)
@@ -27,6 +28,7 @@ router_posts.register(prefix='Pais',basename='Pais',viewset=views.PaisApi)
 router_posts.register(prefix='Ciudad',basename='Ciudad',viewset=views.CiudadApi)
 router_posts.register(prefix='Provincia',basename='Provincia',viewset=views.ProvinciaApi)
 router_posts.register(prefix='Sexo',basename='Sexo',viewset=views.SexoApi)
+router_posts.register('device',FCMDeviceAuthorizedViewSet)
 
 urlpatterns = router_posts.urls 
 urlpatterns += [

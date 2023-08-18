@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "saludencasa-6173e",
+  "private_key_id": "8c39d191c59376226a705dfb4aec062ee9a61206",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDR4Q755iyhW2QE\nmgq674lseENvbQO4Eo/ScrLaD4Gpeiqpm4q8OdGDeQ9bCh4Q8wue34iZZdw6rECF\nGVRUfSZgNe9N/PSvPpV2LUTP8MYpSaPr5C/ELFQymy8YuMBKR6QTYCXRJYhs09eB\nVyEljKPD0fXYiaOhSkWPk625xYNUnZiqTB00iku/Hva+C+5EKnvGM3GQn6g9D9cw\nK1SpC9gaXHOA/w7D0D1b/Mv1YavvOh3T0qsOGTC0QNkhj1AtvGumr+MCZFMvfp3U\nS817r15Rr7jf5nKyQnJP7fuwQBpIykJ6t5iowKORCAiF4q7hgyB/WJn5oSbWokD/\ntmtKmgFRAgMBAAECggEAFsw3yGe7GliR3+QXB/ZEEF8XPXpzKHgFB7WY0udTTM8D\nOlg1yjtiPuyUAUNzP6EUS+Yjxuc8dGJzQbdIz0Km5qraezdfzCIOsdRkq00P9rp+\njqhDPgUYrO8+vunhTVBEiixBVLDF2xhpyi1mNtd05IJL46u+dU3a3300UOpxA8Gb\nnA+SitzId0YYJqA6/FPwUMBTJlSFPY6b1zRbOrhZmawkg13YsrHjkltKbqTTQHXd\n7poxXGeRRTfXynpaaEiBJy/ZPgb3ZMl0E9hhpj97SXZ5OLx6HyUr/M5DsWe8pOU+\ntd5BQgSwyJ5QM7r5Pw1QpfTTLmjzrheuQZ6v9MTUdwKBgQDxP+8nFVegXMzWCYcD\n+uLMsiM7o4GzADNjMY1B6BBCVSZ3uMSzviPDvluByUlU+bmgH+s/Hge+Z5wdCpRR\na0B6UuHLM0bzjJzFmvQ6ntuVrEUMLxRB2KDXmIxboL3AtNAqMEyxwS5rhfM3T5xc\n6SigV8Sy7pPaBy/npxTqfBOz1wKBgQDethu7BDKRWKaxUG6iI/eeIMCjfNjI11Y5\n/w3M4QPeVrfWe/vaZPSDY2b3+tfiKNgJLCKK8dCYuzs4D0FyYA/snZdC1z2LIkeE\nYFTK+yM8/OHg5HjI926ty19gsoE0EOWzgxZY5Z6ALowcteA0NJ2plv9qMLdctBdl\nsCA6D6bPFwKBgHgm33UXrAyyK1JubFAPI+XO0r1hMbd04iMFCtVIPtDKl94Ip+7d\nQ/K5W9nH5j3sIgcd3owQ6Mprz9Sm8DecswA5Rztszml+HpZMFlcbx0FECx+GUxB4\nU6MM1trLs7XGV+arJ4dgLz5d+EQT4kxj01gIXm6/Y+OysKkvDbu7EBUBAoGBALJq\nRXDe/fu+f1vRSbAPDFHbfzf5zlmnWOaBU3bsVIMMCZ6EGNFuywtu2JCUndoKSnee\nqdWRv0B7zgctAYs1NcyiuwjLEfyia5S673LlGefD1tipb7HftwT3xeLbXfJuDvZu\nb7qryPx7Tbe6ZHCuLhgsZVWWzW4wwAWwwUCCRWnlAoGBALpDMn3Ull3SoYVskfue\n9VbvwIGQPp9p6m3NSidm9ZCnb02kyl43q4DUP5UJZ9Ei/7ACfXxxtbew4CpVWE16\n/7ZTgnuB7DJPe1AMoHtsdzwB+GBBhuWvNfvQPMgb1ujTzfHZmISMjmLznz9tMeAJ\nhUQQyCAPByp4o2hZ7HWLNLLC\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-6q8hy@saludencasa-6173e.iam.gserviceaccount.com",
+  "client_id": "118388706193399378260",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-6q8hy%40saludencasa-6173e.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
