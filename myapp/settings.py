@@ -163,7 +163,16 @@ firebase_admin.initialize_app(cred)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# MEDIA_URL = 'static/images/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images/')
+
 # Static files (CSS, JavaScript, Images)
+
+# MEDIA_URL = 'media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# MEDIA_URL = 'static/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'home','static')
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'home', 'static')]
