@@ -1,24 +1,13 @@
-from datetime import timezone
 import re
 from django.db import models
 from django.forms import ValidationError
-from datetime import date
 from datetime import datetime
-from django.utils import timezone
-import pytz
 from django.core.exceptions import ValidationError
 from home.cliente.models import *
 from home.administrador.models import *
 from home.trabajador.models import *
-from django.contrib import admin
-from django.urls import reverse
-from django.utils.html import format_html
 
 from django.db import models
- #from django.contrib.gis.db import models
-#from django.contrib.gis.geos import Point
-from django.dispatch import receiver
-from django.db.models.signals import pre_save
 
 from home.trabajador.models import *
 
@@ -31,12 +20,34 @@ class Cita(models.Model):
     fecha_creacion = models.DateTimeField(verbose_name = 'Fecha de Creacion')
     fecha_inicioatencion = models.DateTimeField(null=True,verbose_name = 'Fecha Inicio de Atención')
     fecha_finatencion = models.DateTimeField(verbose_name = 'Fecha Fin de Atención')
+    fecha_confirmacion = models.DateTimeField(verbose_name = 'Fecha de Confirmacion')
 
+    notificacion_trabajador=models.BooleanField()
+    notificacion_cliente=models.BooleanField()
+    notificacion_calificacion=models.BooleanField()
 
     latitud = models.DecimalField(max_digits=15, decimal_places=9)
     longitud = models.DecimalField(max_digits=15, decimal_places=9) 
-    #ubicacion = models.PointField(null=True,blank=True)
+
+
     estado = models.ForeignKey('EstadoCita', models.DO_NOTHING, db_column='id_estado',verbose_name = 'Estado')
+    def save(self,*args,**kwagrs):
+        self.fecha_creacion = self.convertir_fecha(self.fecha_creacion)
+        self.fecha_inicioatencion = self.convertir_fecha(self.fecha_inicioatencion)
+        self.fecha_finatencion = self.convertir_fecha(self.fecha_finatencion)
+        
+        if not self.latitud:
+            self.latitud=self.ubicacion.y
+        if not self.longitud:
+            self.longitud=self.ubicacion.x
+        super(Cita,self).save(*args,**kwagrs)
+        
+    def convertir_fecha(self, fecha_str):
+        if fecha_str:
+            fecha_obj = datetime.fromisoformat(fecha_str.isoformat()[:-6])
+            return fecha_obj.strftime('%Y-%m-%d %H:%M:%S')
+        return None
+    
     class Meta:
         app_label = "home"
         managed = True
@@ -53,12 +64,80 @@ class DetalleCita(models.Model):
         managed = True
         db_table = 'Detalle_cita'
 
+class Agenda(models.Model):
+    id_Agenda=models.AutoField(primary_key=True)
+    id_trabajador = models.ForeignKey('Trabajador', models.DO_NOTHING, db_column='id_trabajador')
+    descripcion = models.CharField(max_length=200)
+    estado=models.BooleanField()
+
+class AgendaDetalle(models.Model):
+    id_AgendaDetalle=models.AutoField(primary_key=True)
+    id_Agenda = models.ForeignKey('Agenda', models.DO_NOTHING, db_column='id_Agenda')
+    dia_semana = models.CharField(max_length=10)
+    hora_inicio = models.TimeField(verbose_name = 'Hora de Inicio')
+    hora_fin = models.TimeField(verbose_name = 'Hora de Fin')
+
+class ReporteUsuario(models.Model):
+    id_reporte=models.AutoField(primary_key=True)
+    id_usuario_reportador=models.ForeignKey('Cliente', models.DO_NOTHING, db_column='id_cliente_reportador',related_name='usureportado')
+    id_usuario_reportado=models.ForeignKey('Cliente', models.DO_NOTHING, db_column='id_cliente_reportado',related_name='usureportador2')
+    id_tiporeporte=models.ForeignKey('TipoReporte', models.DO_NOTHING, db_column='id_tiporeporte')
+    motivo_reporte=models.CharField(max_length=200)
+    fecha_reporte = models.DateTimeField(verbose_name = 'Fecha de Reporte')
+    estado = models.BooleanField()
+
+    def save(self,*args,**kwagrs):
+        self.fecha_reporte = self.convertir_fecha(self.fecha_reporte)
+        super(ReporteUsuario,self).save(*args,**kwagrs)
+        
+    def convertir_fecha(self, fecha_str):
+        if fecha_str:
+            fecha_obj = datetime.fromisoformat(fecha_str.isoformat()[:-6])
+            return fecha_obj.strftime('%Y-%m-%d %H:%M:%S')
+        return None
+
+class TipoReporte(models.Model):
+    id_tiporeporte=models.AutoField(primary_key=True)
+    descripcion=models.CharField(max_length=200)
+    estado=models.BooleanField()
+
+class Bloqueos(models.Model):
+    id_bloqueo=models.AutoField(primary_key=True)
+    id_usuario_bloqueador=models.ForeignKey('Cliente', models.DO_NOTHING, db_column='id_cliente_bloqueador',related_name='usubloqueador')
+    id_usuario_bloqueado=models.ForeignKey('Cliente', models.DO_NOTHING, db_column='id_cliente_bloqueado',related_name='usubloqueado')
+    fecha_bloqueo = models.DateTimeField(verbose_name = 'Fecha de Bloqueo')
+    def save(self,*args,**kwagrs):
+        self.fecha_bloqueo = self.convertir_fecha(self.fecha_bloqueo)
+        super(Bloqueos,self).save(*args,**kwagrs)
+        
+    def convertir_fecha(self, fecha_str):
+        if fecha_str:
+            fecha_obj = datetime.fromisoformat(fecha_str.isoformat()[:-6])
+            return fecha_obj.strftime('%Y-%m-%d %H:%M:%S')
+        return None
+
+
+
 class Chat(models.Model):
     id_chat = models.AutoField(primary_key=True)
     id_cliente = models.ForeignKey('Cliente', models.DO_NOTHING, db_column='id_cliente')
     id_trabajador = models.ForeignKey('Trabajador', models.DO_NOTHING, db_column='id_trabajador')
-    fecha_creacion=models.DateField()
+    fecha_creacion=models.DateTimeField(verbose_name='Fecha de Creacion')
+
+    ultimensaje=models.CharField(max_length=200,verbose_name='Ultimo Mensaje')
     estado = models.CharField(max_length=50)
+
+    
+    def save(self,*args,**kwagrs):
+        self.fecha_creacion = self.convertir_fecha(self.fecha_creacion)
+        super(Chat,self).save(*args,**kwagrs)
+    
+
+    def convertir_fecha(self, fecha_str):
+        if fecha_str:
+            fecha_obj = datetime.fromisoformat(fecha_str.isoformat()[:-6])
+            return fecha_obj.strftime('%Y-%m-%d %H:%M:%S')
+        return None
 
     class Meta:
         managed = True
@@ -80,10 +159,27 @@ class Mensaje(models.Model):
     id_mensaje = models.AutoField(primary_key=True)
     id_chat = models.ForeignKey('Chat', models.DO_NOTHING, db_column='id_chat')
     id_cliente = models.ForeignKey('Cliente', models.DO_NOTHING, db_column='id_cliente')
-    fecha_envio = models.DateField()
+    fecha_envio = models.DateTimeField()
     Mensaje = models.CharField(max_length=200)
     tipo_mensaje=models.CharField(max_length=50)
+
+    visto_emisor=models.BooleanField()
+    visto_receptor=models.BooleanField()
+
     estado_tipo=models.CharField(max_length=50)
+
+
+    def save(self,*args,**kwagrs):
+        self.fecha_envio = self.convertir_fecha(self.fecha_envio)
+        super(Mensaje,self).save(*args,**kwagrs)
+    
+
+    def convertir_fecha(self, fecha_str):
+        if fecha_str:
+            fecha_obj = datetime.fromisoformat(fecha_str.isoformat()[:-6])
+            return fecha_obj.strftime('%Y-%m-%d %H:%M:%S')
+        return None
+    
     class Meta:
         managed = True
         db_table = 'Mensaje'
@@ -116,15 +212,14 @@ class Trabajador(models.Model):
     pdf_curriculum = models.FileField(null=True,upload_to='pdfs/',verbose_name = 'Pdf Curriculum')
     latitud = models.DecimalField(max_digits=15, decimal_places=9)
     longitud = models.DecimalField(max_digits=15, decimal_places=9) 
-    #ubicacion = models.PointField(null=True,blank=True)
     estado = models.ForeignKey('EstadoTrabajador', models.DO_NOTHING, db_column='id_estado',verbose_name = 'Estado_Trabajador')
     presentacion = models.CharField(max_length=200,null=True)
-    #def save(self,*args,**kwagrs):
-        #if not self.latitud:
-         #   self.latitud=self.ubicacion.y
-        #if not self.longitud:
-         #   self.longitud=self.ubicacion.x
-        #super(Trabajador,self).save(*args,**kwagrs)
+    def save(self,*args,**kwagrs):
+        if not self.latitud:
+            self.latitud=self.ubicacion.y
+        if not self.longitud:
+            self.longitud=self.ubicacion.x
+        super(Trabajador,self).save(*args,**kwagrs)
 
     class Meta:
         managed = True
@@ -177,6 +272,13 @@ class Ubicaciones(models.Model):
     id_trabajador = models.ForeignKey('Trabajador', models.DO_NOTHING, db_column='id_trabajador')
     latitud = models.DecimalField(max_digits=15, decimal_places=9)
     longitud = models.DecimalField(max_digits=15, decimal_places=9) 
+    
+    def save(self,*args,**kwagrs):
+        if not self.latitud:
+            self.latitud=self.ubicacion.y
+        if not self.longitud:
+            self.longitud=self.ubicacion.x
+        super(Ubicaciones,self).save(*args,**kwagrs)
     estado = models.BooleanField()
 
     class Meta:

@@ -3,12 +3,11 @@ from home.administrador import models
 from home.cliente import models
 from home.trabajador import models
 from home.api import serializers
+from firebase_admin.messaging import Message, Notification
+from fcm_django.models import FCMDevice
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
-from firebase_admin.messaging import Message, Notification
-from fcm_django.models import FCMDevice
 
 class ProfesionesApi(ModelViewSet):
     queryset = models.Profesiones.objects.all()
@@ -81,7 +80,7 @@ class LoginApi(ModelViewSet):
 
 class MensajeApi(ModelViewSet):
     queryset = models.Mensaje.objects.all()
-    serializer_class = serializers.MensajeSerializar  
+    serializer_class = serializers.MensajeSerializar
 
     def perform_create(self, serializer):
         #cita registrada

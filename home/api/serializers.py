@@ -4,6 +4,39 @@ from home.administrador import models
 from home.cliente import models
 from home.trabajador import models
 
+
+class CalificacionSerializer(ModelSerializer):
+    class Meta:
+        model = models.Calificacion
+        fields = ['id_paciente','id_trabajador','puntuacion','comentario']
+
+class AgendaSerializer(ModelSerializer):
+    class Meta:
+        model = models.Agenda
+        fields = ['id_Agenda','id_trabajador','descripcion','estado']
+
+
+class AgendaDetalleSerializer(ModelSerializer):
+    class Meta:
+        model = models.AgendaDetalle
+        fields = ['id_AgendaDetalle','id_Agenda','dia_semana','hora_inicio','hora_fin']
+
+class ReporteUsuarioSerializer(ModelSerializer):
+    class Meta:
+        model = models.ReporteUsuario
+        fields = ['id_reporte','id_usuario_reportador','id_usuario_reportado',
+                  'id_tiporeporte','motivo_reporte','fecha_reporte','estado']
+
+class TipoReporteSerializer(ModelSerializer):
+    class Meta:
+        model = models.TipoReporte
+        fields = ['id_tiporeporte','descripcion','estado']
+
+class BloqueosSerializer(ModelSerializer):
+    class Meta:
+        model = models.Bloqueos
+        fields = ['id_bloqueo','id_usuario_bloqueador','id_usuario_bloqueado','fecha_bloqueo']
+
 class ProfesionesSerializer(ModelSerializer):
     class Meta:
         model = models.Profesiones
@@ -92,8 +125,9 @@ class CitaSerializer(ModelSerializer):
     class Meta:
         model = models.Cita
         fields = ['id_cita','id_trabajador','trabajador','id_cliente','cliente','descripcion_motivo',
-                  'fecha_creacion','fecha_inicioatencion','fecha_finatencion','latitud',
-                  'longitud','estado','estadoid','fotoC','fotoT'
+                  'fecha_creacion','fecha_inicioatencion','fecha_finatencion','fecha_confirmacion',
+                  'notificacion_trabajador','notificacion_cliente','notificacion_calificacion',
+                  'latitud','longitud','estado','estadoid','fotoC','fotoT'
                   ]        
     def get_cliente(self,obj):
         return f"{obj.id_cliente.nombre} {obj.id_cliente.apellido}"
@@ -137,13 +171,16 @@ class ChatSerializer(ModelSerializer):
     trabajador = SerializerMethodField()
     fotoC=ImageField(read_only=True,source='id_cliente.foto')
     fotoT=ImageField(read_only=True,source='id_trabajador.id_cliente.foto')
+    id_cliente_trabajador = SerializerMethodField()
     class Meta:
         model = models.Chat   
-        fields = ['id_chat','id_cliente','cliente','id_trabajador','trabajador','fecha_creacion','estado','fotoC','fotoT']
+        fields = ['id_chat','id_cliente','cliente','id_trabajador','id_cliente_trabajador','trabajador','fecha_creacion','ultimensaje','estado','fotoC','fotoT']
     def get_cliente(self,obj):
         return f"{obj.id_cliente.nombre} {obj.id_cliente.apellido}"
     def get_trabajador(self,obj):
         return f"{obj.id_trabajador.id_cliente.nombre} {obj.id_trabajador.id_cliente.apellido}"
+    def get_id_cliente_trabajador(self, obj):
+        return obj.id_trabajador.id_cliente.id_cliente
     
 
 class ChatDetalleSerializar(ModelSerializer):
@@ -154,7 +191,8 @@ class ChatDetalleSerializar(ModelSerializer):
 class MensajeSerializar(ModelSerializer):
     class Meta:
         model = models.Mensaje  
-        fields = ['id_mensaje','id_chat','id_cliente','fecha_envio','Mensaje','tipo_mensaje','estado_tipo']
+        fields = ['id_mensaje','id_chat','id_cliente','fecha_envio',
+                  'Mensaje','visto_emisor','visto_receptor','tipo_mensaje','estado_tipo']
         
 class TipoSangreSerializer(ModelSerializer):
     class Meta:
