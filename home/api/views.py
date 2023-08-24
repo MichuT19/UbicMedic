@@ -89,16 +89,22 @@ class MensajeApi(ModelViewSet):
         usuario1 = mensaje.id_chat.id_cliente
         usuario2 = mensaje.id_chat.id_trabajador.id_cliente
         
-        if usuario1 != emisor:  
-            print(usuario1)
-            cliente = models.Login.objects.get(id_cliente=usuario1)
-        else:
-            print(usuario2)
-            cliente = models.Login.objects.get(id_cliente=usuario2)
-        persona= cliente.usuario
-        device = FCMDevice.objects.get(name = persona)
-        device.send_message(Message(notification=Notification(title='Nuevo mensaje', body= f'{mensaje.Mensaje}')))
-  
+        try:
+            if usuario1 != emisor:  
+                cliente = models.Login.objects.get(id_cliente=usuario1)
+            else:
+                cliente = models.Login.objects.get(id_cliente=usuario2)
+            
+            persona = cliente.usuario
+            
+            try:
+                device = FCMDevice.objects.get(name=persona)
+                device.send_message(Message(notification=Notification(title='Nuevo mensaje', body=f'{mensaje.Mensaje}')))
+            except FCMDevice.DoesNotExist:
+                print("No se encontró un dispositivo registrado para el usuario:", persona)
+        
+        except models.Login.DoesNotExist:
+             print("No se encontró un dispositivo registrado para el usuario")
 
 class ChatApi(ModelViewSet):
     queryset = models.Chat.objects.all()

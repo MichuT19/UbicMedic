@@ -86,23 +86,23 @@ WSGI_APPLICATION = 'myapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-      'default': dj_database_url.config(
-          default='postgresql://postgres:postgres@localhost:5432/mysite',
-          conn_max_age=600
-      )
- }
-
 # DATABASES = {
-#      'default': {
-#          'ENGINE': 'django.db.backends.postgresql',
-#          'NAME': 'ubicmedic_zi9n',         # Nombre de la base de datos
-#          'USER': 'ubicmedic_zi9n_user',    # Nombre de usuario
-#          'PASSWORD': 'hChXTuyQ0FTvBcxlZ7p36wKSWB7oJyqq',  # Contraseña
-#          'HOST': 'dpg-cjfdobqnip6c73bqlq4g-a.oregon-postgres.render.com',  # Dirección del servidor
-#          'PORT': '5432',                   # Puerto
-#      }
+#       'default': dj_database_url.config(
+#           default='postgresql://postgres:postgres@localhost:5432/mysite',
+#           conn_max_age=600
+#       )
 #  }
+
+DATABASES = {
+     'default': {
+         'ENGINE': 'django.db.backends.postgresql',
+         'NAME': 'ubicmedic_ncll',         # Nombre de la base de datos
+         'USER': 'ubicmedic_ncll_user',    # Nombre de usuario
+         'PASSWORD': 'tJdMWd8KhLnBqJp6aHf7NoU9yt1YeX5k',  # Contraseña
+         'HOST': 'dpg-cjj860fjbvhs73fkrhi0-a.oregon-postgres.render.com',  # Dirección del servidor
+         'PORT': '5432',                   # Puerto
+     }
+ }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
