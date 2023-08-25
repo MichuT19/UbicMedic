@@ -98,7 +98,14 @@ class MensajeApi(ModelViewSet):
             
         try:
                 device = FCMDevice.objects.get(name=persona)
-                device.send_message(Message(notification=Notification(title='Nuevo mensaje', body=f'{mensaje.Mensaje}')))
+                custom_data = {
+                    'emisor': emisor,
+                }
+                device.send_message(
+                    title='Nuevo mensaje',
+                    body=f'{mensaje.Mensaje}',
+                    data=custom_data
+                )
         except FCMDevice.DoesNotExist:
                 print("No se encontró un dispositivo registrado para el usuario:", persona)
 
