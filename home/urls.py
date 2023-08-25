@@ -8,6 +8,16 @@ from home.api import views
 from home.api_fcm.rest_framework import FCMDeviceAuthorizedViewSet
 
 router_posts = routers.DefaultRouter()
+
+
+router_posts.register(prefix='Calificacion', basename="Calificacion", viewset=views.CalificacionApi)
+
+router_posts.register(prefix='Agenda', basename="Agenda", viewset=views.AgendaApi)
+router_posts.register(prefix='AgendaDetalle', basename="AgendaDetalle", viewset=views.AgendaDetalleApi)
+router_posts.register(prefix='ReporteUsuario', basename="ReporteUsuario", viewset=views.ReporteUsuarioApi)
+router_posts.register(prefix='TipoReporte', basename="TipoReporte", viewset=views.TipoReporteApi)
+router_posts.register(prefix='Bloqueos', basename="Bloqueos", viewset=views.BloqueosApi)
+
 router_posts.register(prefix='EstadoTrabajador', basename="Estado_trabajador", viewset=views.EstadoTrabajadorApi)
 router_posts.register(prefix='TipoDeProfesiones', basename="Profesiones", viewset=views.ProfesionesApi)
 router_posts.register(prefix='ProfesionesxTrabajador', basename="ProfesionesxTrabajador", viewset=views.ProfesionesxTrabajadorApi)
