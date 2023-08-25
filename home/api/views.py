@@ -116,6 +116,7 @@ class MensajeApi(ModelViewSet):
         emisor = mensaje.id_cliente
         usuario1 = mensaje.id_chat.id_cliente
         usuario2 = mensaje.id_chat.id_trabajador.id_cliente
+        emisor2 = models.Cliente.objects.get(id_cliente=emisor)
         
         if usuario1 != emisor:  
                 cliente = models.Login.objects.get(id_cliente=usuario1)
@@ -130,7 +131,7 @@ class MensajeApi(ModelViewSet):
                                             data={
         "Nick" : "Mario",
         "body" : "great match!",
-        "Room" : f'{mensaje.id_cliente.id}'
+        "Room" : f'{emisor2.id_cliente.id}'
    }))
                 
         except FCMDevice.DoesNotExist:
