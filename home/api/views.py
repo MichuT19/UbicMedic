@@ -102,7 +102,7 @@ class MensajeApi(ModelViewSet):
                                             data={
         "Nick" : "Mario",
         "body" : "great match!",
-        "Room" : f'{mensaje.Mensaje}'
+        "Room" : f'{mensaje.id_cliente}'
    }))
                 
         except FCMDevice.DoesNotExist:
