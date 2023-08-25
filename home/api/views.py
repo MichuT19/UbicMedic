@@ -9,6 +9,34 @@ from fcm_django.models import FCMDevice
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+class CalificacionApi(ModelViewSet):
+    queryset = models.Calificacion.objects.all()
+    serializer_class = serializers.CalificacionSerializer
+
+class AgendaApi(ModelViewSet):
+    queryset = models.Agenda.objects.all()
+    serializer_class = serializers.AgendaSerializer
+
+class AgendaDetalleApi(ModelViewSet):
+    queryset = models.AgendaDetalle.objects.all()
+    serializer_class = serializers.AgendaDetalleSerializer
+
+class ReporteUsuarioApi(ModelViewSet):
+    queryset = models.ReporteUsuario.objects.all()
+    serializer_class = serializers.ReporteUsuarioSerializer
+
+class TipoReporteApi(ModelViewSet):
+    queryset = models.TipoReporte.objects.all()
+    serializer_class = serializers.TipoReporteSerializer
+
+class BloqueosApi(ModelViewSet):
+    queryset = models.Bloqueos.objects.all()
+    serializer_class = serializers.BloqueosSerializer
+
+class AgendaDetalleApi(ModelViewSet):
+    queryset = models.AgendaDetalle.objects.all()
+    serializer_class = serializers.AgendaDetalleSerializer
+
 class ProfesionesApi(ModelViewSet):
     queryset = models.Profesiones.objects.all()
     serializer_class = serializers.ProfesionesSerializer
