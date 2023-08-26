@@ -86,23 +86,23 @@ WSGI_APPLICATION = 'myapp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#       'default': dj_database_url.config(
-#           default='postgresql://postgres:postgres@localhost:5432/mysite',
-#           conn_max_age=600
-#       )
-#  }
-
 DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.postgresql',
-         'NAME': 'ubicmedic_ncll',         # Nombre de la base de datos
-         'USER': 'ubicmedic_ncll_user',    # Nombre de usuario
-         'PASSWORD': 'tJdMWd8KhLnBqJp6aHf7NoU9yt1YeX5k',  # Contraseña
-         'HOST': 'dpg-cjj860fjbvhs73fkrhi0-a.oregon-postgres.render.com',  # Dirección del servidor
-         'PORT': '5432',                   # Puerto
-     }
+      'default': dj_database_url.config(
+          default='postgresql://postgres:postgres@localhost:5432/mysite',
+          conn_max_age=600
+      )
  }
+
+# DATABASES = {
+#      'default': {
+#          'ENGINE': 'django.db.backends.postgresql',
+#          'NAME': 'ubicmedic_ncll',         # Nombre de la base de datos
+#          'USER': 'ubicmedic_ncll_user',    # Nombre de usuario
+#          'PASSWORD': 'tJdMWd8KhLnBqJp6aHf7NoU9yt1YeX5k',  # Contraseña
+#          'HOST': 'dpg-cjj860fjbvhs73fkrhi0-a.oregon-postgres.render.com',  # Dirección del servidor
+#          'PORT': '5432',                   # Puerto
+#      }
+#  }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -139,6 +139,9 @@ FCM_DJANGO_SETTINGS = {
         "FCM_SERVER_KEY": "AAAAwtYqJcw:APA91bG6ibBeS9yEMNHjlNtAKc1zlpfGBXdlqqfkQ8DXlG5Cs7l-Jzniim41vBFEpeSMf_Gp85Zpt65WzzEhPuiUcslTSSQSLalk9mT-Bj3Dl4DVnRa4XkUrzZtcKXLml2PoWFyvTwms"}
 
 cred = credentials.Certificate(os.path.join(BASE_DIR,'myapp/credenciales.json'))
+
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(BASE_DIR, 'credenciales2.json')
+
 firebase_admin.initialize_app(cred)
 
 MEDIA_URL = '/media/'
@@ -148,6 +151,8 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'home', 'static')]
 
 if not DEBUG:
+    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+    GS_BUCKET_NAME = 'ubicmedic'
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
