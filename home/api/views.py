@@ -67,21 +67,27 @@ class CitaApi(ModelViewSet):
         user = cita.id_trabajador.id_cliente
         cliente = models.Login.objects.get(id_cliente=user)
         persona= cliente.usuario
-        device = FCMDevice.objects.get(name = persona)
-        print("dispositivo")
-        print(device)
-        device.send_message(Message(notification=Notification(title='Nueva cita', body='Se ha resgistrado una nueva cita')))
+        try:
+            device = FCMDevice.objects.get(name = persona)
+            device.send_message(Message(notification=Notification(title='Nueva cita', body='Se ha resgistrado una nueva cita')))
+        except FCMDevice.DoesNotExist:
+                print("No se encontró un dispositivo registrado para el usuario")
 
     def perform_update(self, serializer):
         cita = serializer.save()
         user = cita.id_cliente
         cliente = models.Login.objects.get(id_cliente=user)
         persona= cliente.usuario
-        device = FCMDevice.objects.get(name = persona)
-        if cita.estado.descripcion == "Aceptada":
-            device.send_message(Message(notification=Notification(title='Cita aceptada', body='Tu cita ha sido aceptada')))
-        else:
-            device.send_message(Message(notification=Notification(title='Cita rechazada', body='Tu cita ha sido rechazada')))  
+        
+        try:
+             device = FCMDevice.objects.get(name = persona)
+             if cita.estado.descripcion == "Aceptada":
+                 device.send_message(Message(notification=Notification(title='Cita aceptada', body='Tu cita ha sido aceptada')))
+             else:
+                 device.send_message(Message(notification=Notification(title='Cita rechazada', body='Tu cita ha sido rechazada')))
+        
+        except FCMDevice.DoesNotExist:
+                print("No se encontró un dispositivo registrado para el usuario")  
 
 
 class DetalleCitaApi(ModelViewSet):
@@ -128,10 +134,8 @@ class MensajeApi(ModelViewSet):
                 device = FCMDevice.objects.get(name=persona)
                 device.send_message(Message(notification=Notification(title='Nuevo mensaje', body=f'{mensaje.Mensaje}'),
                                             data={
-        "Nick" : "Mario",
-        "body" : "great match!",
-        "Room" : f'{mensaje.id_cliente.id_cliente}'
-   }))
+                                                "Room" : f'{mensaje.id_cliente.id_cliente}'
+                                                }))
                 
         except FCMDevice.DoesNotExist:
                 print("No se encontró un dispositivo registrado para el usuario:", persona)
