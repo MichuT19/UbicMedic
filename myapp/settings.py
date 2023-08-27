@@ -140,9 +140,9 @@ FCM_DJANGO_SETTINGS = {
 
 cred = credentials.Certificate(os.path.join(BASE_DIR,'myapp/credenciales.json'))
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(BASE_DIR, 'credenciales2.json')
-
 firebase_admin.initialize_app(cred)
+
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.path.join(BASE_DIR, 'credenciales2.json')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

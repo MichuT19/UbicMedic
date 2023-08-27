@@ -134,6 +134,7 @@ class MensajeApi(ModelViewSet):
                 device = FCMDevice.objects.get(name=persona)
                 device.send_message(Message(notification=Notification(title='Nuevo mensaje', body=f'{mensaje.Mensaje}'),
                                             data={
+                                                "Chat" : f'{mensaje.id_chat.id_chat}',
                                                 "Room" : f'{mensaje.id_cliente.id_cliente}'
                                                 }))
                 
