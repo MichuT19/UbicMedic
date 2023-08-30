@@ -131,7 +131,7 @@ class TrabajadorSerializer(ModelSerializer):
     
     class Meta:
         model = models.Trabajador
-        fields = ['id_trabajador','cliente','id_cliente','profesiones','puntuaciones','id_tipo_trabajador','trabajador','pdf_cedula','pdf_curriculum','latitud', 'longitud','estado','estadoid','foto']
+        fields = ['id_trabajador','cliente','id_cliente','profesiones','puntuaciones','atenciones','id_tipo_trabajador','trabajador','pdf_cedula','pdf_curriculum','latitud', 'longitud','estado','estadoid','foto']
 
 class CitaSerializer(ModelSerializer):
     trabajador = SerializerMethodField()
