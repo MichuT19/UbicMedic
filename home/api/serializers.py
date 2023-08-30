@@ -99,7 +99,7 @@ class TrabajadorSerializer(ModelSerializer):
     puntuaciones = SerializerMethodField()
 
     def get_puntuaciones(self, obj):
-        calificaciones = models.Calificacion.objects.filter(idtrabajador=obj.id_trabajador)
+        calificaciones = models.Calificacion.objects.filter(id_trabajador=obj.id_trabajador)
         return [calificacion.puntuacion for calificacion in calificaciones]
 
     def get_profesiones(self, trabajador):
@@ -119,7 +119,7 @@ class TrabajadorSerializer(ModelSerializer):
     
     class Meta:
         model = models.Trabajador
-        fields = ['id_trabajador','cliente','id_cliente','profesiones','id_tipo_trabajador','trabajador','pdf_cedula','pdf_curriculum','latitud', 'longitud','estado','estadoid','foto']
+        fields = ['id_trabajador','cliente','id_cliente','profesiones','puntuaciones','id_tipo_trabajador','trabajador','pdf_cedula','pdf_curriculum','latitud', 'longitud','estado','estadoid','foto']
 
 class CitaSerializer(ModelSerializer):
     trabajador = SerializerMethodField()
