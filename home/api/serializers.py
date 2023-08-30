@@ -6,9 +6,15 @@ from home.trabajador import models
 
 
 class CalificacionSerializer(ModelSerializer):
+    foto=ImageField(read_only=True,source='id_paciente.foto')
+    cliente = SerializerMethodField()
+
+    def get_cliente(self,obj):
+        return f"{obj.id_paciente.nombre} {obj.id_paciente.apellido}"
+
     class Meta:
         model = models.Calificacion
-        fields = ['id_paciente','id_trabajador','puntuacion','comentario']
+        fields = ['id_paciente','cliente','id_trabajador','foto','puntuacion','comentario']
 
 class AgendaSerializer(ModelSerializer):
     class Meta:
