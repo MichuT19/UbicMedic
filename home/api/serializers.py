@@ -96,6 +96,11 @@ class TrabajadorSerializer(ModelSerializer):
     estadoid = CharField(read_only=True, source = 'estado.descripcion')
     foto=ImageField(read_only=True,source='id_cliente.foto')
     profesiones = SerializerMethodField()
+    puntuaciones = SerializerMethodField()
+
+    def get_puntuaciones(self, obj):
+        calificaciones = models.Calificacion.objects.filter(idtrabajador=obj.id_trabajador)
+        return [calificacion.puntuacion for calificacion in calificaciones]
 
     def get_profesiones(self, trabajador):
         profesionesxtrabajador = models.ProfesionesxTrabajador.objects.filter(id_trabajador=trabajador.id_trabajador)
