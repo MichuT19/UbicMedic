@@ -120,8 +120,13 @@ class MensajeApi(ModelViewSet):
         #cita registrada
         mensaje = serializer.save()
         emisor = mensaje.id_cliente
+        chat = mensaje.id_chat
+
         usuario1 = mensaje.id_chat.id_cliente
         usuario2 = mensaje.id_chat.id_trabajador.id_cliente
+
+        chat.ultimensaje = mensaje.Mensaje
+        chat.save()
         
         if usuario1 != emisor:  
                 cliente = models.Login.objects.get(id_cliente=usuario1)
