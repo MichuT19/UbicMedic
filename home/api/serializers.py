@@ -100,7 +100,14 @@ class TrabajadorSerializer(ModelSerializer):
 
     def get_puntuaciones(self, obj):
         calificaciones = models.Calificacion.objects.filter(id_trabajador=obj.id_trabajador)
-        return [calificacion.puntuacion for calificacion in calificaciones]
+        total_puntuacion = sum([calificacion.puntuacion for calificacion in calificaciones])
+        num_calificaciones = calificaciones.count()
+        
+        if num_calificaciones > 0:
+            average_puntuacion = total_puntuacion / num_calificaciones
+            return average_puntuacion
+        else:
+            return 0 
 
     def get_profesiones(self, trabajador):
         profesionesxtrabajador = models.ProfesionesxTrabajador.objects.filter(id_trabajador=trabajador.id_trabajador)
