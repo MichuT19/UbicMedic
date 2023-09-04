@@ -116,7 +116,7 @@ class TrabajadorSerializer(ModelSerializer):
         
         if num_calificaciones > 0:
             average_puntuacion = total_puntuacion / num_calificaciones
-            return average_puntuacion
+            return round(average_puntuacion, 2)
         else:
             return 0 
 
