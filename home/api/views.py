@@ -80,9 +80,10 @@ class CitaApi(ModelViewSet):
         persona= cliente.usuario
         
         try:
-             device = FCMDevice.objects.get(name = persona)
-             if cita.estado.descripcion == "Aceptada":
-                 device.send_message(Message(notification=Notification(title='Cita aceptada', body='Tu cita ha sido aceptada')))
+             devices = FCMDevice.objects.filter(name=persona)              
+             for device in devices:
+                  if cita.estado.descripcion == "Aceptada":
+                       device.send_message(Message(notification=Notification(title='Cita aceptada', body='Tu cita ha sido aceptada')))
              
         except FCMDevice.DoesNotExist:
                 print("No se encontró un dispositivo registrado para el usuario")  
@@ -134,8 +135,7 @@ class MensajeApi(ModelViewSet):
         persona = cliente.usuario
             
         try:
-                devices = FCMDevice.objects.filter(name=persona)
-                
+                devices = FCMDevice.objects.filter(name=persona)              
                 for device in devices:
                      device.send_message(Message(notification=Notification(title='Nuevo mensaje', body=f'{mensaje.Mensaje}'),
                                             data={
