@@ -68,8 +68,9 @@ class CitaApi(ModelViewSet):
         cliente = models.Login.objects.get(id_cliente=user)
         persona= cliente.usuario
         try:
-            device = FCMDevice.objects.get(name = persona)
-            device.send_message(Message(notification=Notification(title='Nueva cita', body='Se ha resgistrado una nueva cita')))
+            devices = FCMDevice.objects.filter(name=persona)              
+            for device in devices:
+                 device.send_message(Message(notification=Notification(title='Nueva cita', body='Se ha resgistrado una nueva cita')))
         except FCMDevice.DoesNotExist:
                 print("No se encontró un dispositivo registrado para el usuario")
 
