@@ -67,12 +67,12 @@ class CitaApi(ModelViewSet):
         user = cita.id_trabajador.id_cliente
         cliente = models.Login.objects.get(id_cliente=user)
         persona= cliente.usuario
-        try:
-            devices = FCMDevice.objects.filter(name=persona)              
-            for device in devices:
-                 device.send_message(Message(notification=Notification(title='Nueva cita', body='Se ha resgistrado una nueva cita')))
-        except Exception as e:
-             print(f"Ocurrió una excepción: {str(e)}")
+        # try:
+        #     devices = FCMDevice.objects.filter(name=persona)              
+        #     for device in devices:
+        #          device.send_message(Message(notification=Notification(title='Nueva cita', body='Se ha resgistrado una nueva cita')))
+        # except Exception as e:
+        #      print(f"Ocurrió una excepción: {str(e)}")
 
     def perform_update(self, serializer):
         cita = serializer.save()
