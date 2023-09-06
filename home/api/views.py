@@ -140,6 +140,7 @@ class MensajeApi(ModelViewSet):
                      device.send_message(Message(notification=Notification(title='Nuevo mensaje', body=f'{mensaje.Mensaje}'),
                                             data={
                                                 "Chat" : f'{mensaje.id_chat.id_chat}',
+                                                "Tipo" : f'{mensaje.tipo_mensaje}',
                                                 "Room" : f'{mensaje.id_cliente.id_cliente}'
                                                 }))
                 
