@@ -134,8 +134,10 @@ class MensajeApi(ModelViewSet):
         persona = cliente.usuario
             
         try:
-                device = FCMDevice.objects.filter(name=persona)
-                device.send_message(Message(notification=Notification(title='Nuevo mensaje', body=f'{mensaje.Mensaje}'),
+                devices = FCMDevice.objects.filter(name=persona)
+                
+                for device in devices:
+                     device.send_message(Message(notification=Notification(title='Nuevo mensaje', body=f'{mensaje.Mensaje}'),
                                             data={
                                                 "Chat" : f'{mensaje.id_chat.id_chat}',
                                                 "Room" : f'{mensaje.id_cliente.id_cliente}'
